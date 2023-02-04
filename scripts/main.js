@@ -27,47 +27,74 @@ window.addEventListener('DOMContentLoaded',() => {
     productos.push(new Product("Favoritos",50,"favoritos","favorite.png"));
 
     console.log("Hay "+nProds+" servicios disponibles: ");
+    productos.forEach((prod)=>console.log(`   · ${prod.name}`));
 
-    let htmlProductos = "";
-    for (const product of productos) {
-        htmlProductos += `<div>
-            <input type="checkbox" name="${product.urlName}" id="${product.urlName}">
-            <label for="${product.urlName}">
-                <div class="box" data-index="${product.id}" data-price="${product.price}">
-                    <div class="imagen">
-                        <img src="./img/${product.image}" alt="${product.name}" width="100%">
-                    </div>
-                    <h2>${product.name}</h2>
-                </div>
-            </label>
-        </div>`;
-        console.log(`   · ${productos[product.id].name}`);
+    // FILTROS
+    document.querySelector('#order-by').addEventListener('change',ordenarArray);
+    function ordenarArray(){
+        let value = document.querySelector('#order-by').value;
+        let copiaArray = [...productos];
+
+        if(value === "name-asc"){
+            copiaArray.sort((a, b) => b.name.localeCompare(a.name));
+        } else if(value === "name-desc"){
+            copiaArray.sort((a, b) => a.name.localeCompare(b.name));
+        } else if(value === "price-asc"){
+            copiaArray.sort((a, b) => a.price - b.price);
+        } else if(value === "price-desc"){
+            copiaArray.sort((a, b) => b.price - a.price);
+        }
+
+        carrito = [];
+        unselectAll();
+        mostrarProductos(copiaArray);
     }
-    document.querySelector('.boxes').innerHTML = htmlProductos;
+
+    mostrarProductos(productos)
+    function mostrarProductos(arrProds){
+        let htmlProductos = "";
+        for (const product of arrProds) {
+            htmlProductos += `<div>
+                <input type="checkbox" name="${product.urlName}" id="${product.urlName}">
+                <label for="${product.urlName}">
+                    <div class="box" data-index="${product.id}" data-price="${product.price}">
+                        <div class="imagen">
+                            <img src="./img/${product.image}" alt="${product.name}" width="100%">
+                        </div>
+                        <h2>${product.name}</h2>
+                    </div>
+                </label>
+            </div>`;
+        }
+        document.querySelector('.boxes').innerHTML = htmlProductos;
+        eventoCheckbox();
+    }
 
     // AÑADIR O QUITAR DEL CARRITO
     let carrito = [];
 
-    const productsDOM = document.querySelector('.boxes').children;
-    for(const el of productsDOM) {
-        let box = el.querySelector('.box');
-        let checkbox = el.getElementsByTagName('input')[0];
-        // función que ejecutaran los checkbox al cambiar
-        checkbox.addEventListener("change", () => {
-            const index = box.getAttribute('data-index');
-            const product = productos[index];
-            // comprobamos si está o no checkeado
-            if (checkbox.checked) {
-                carrito.push(product);
-            } else {
-                const index = carrito.indexOf(product);
-                carrito.splice(index, 1);
-            }
-            // calculamos y mostramos el total
-            mostrarTotal();
-        })
+    function eventoCheckbox(){
+        const productsDOM = document.querySelector('.boxes').children;
+        for(const el of productsDOM) {
+            let box = el.querySelector('.box');
+            let checkbox = el.getElementsByTagName('input')[0];
+            // función que ejecutaran los checkbox al cambiar
+            checkbox.addEventListener("change", () => {
+                const index = box.getAttribute('data-index');
+                const product = productos[index];
+                // comprobamos si está o no checkeado
+                if (checkbox.checked) {
+                    carrito.push(product);
+                } else {
+                    const index = carrito.indexOf(product);
+                    carrito.splice(index, 1);
+                }
+                // calculamos y mostramos el total
+                mostrarTotal();
+            })
+        }
     }
-    
+
 
     // MOSTRAR SUBTOTAL
     function mostrarSubtotal(){
@@ -101,20 +128,24 @@ window.addEventListener('DOMContentLoaded',() => {
     }
 
     // BOTÓN DESELECCIONAR TODO
-    document.querySelector('#unselect').addEventListener('click', () => {
+    document.querySelector('#unselect').addEventListener('click', unselectAll);
+    function unselectAll(){
+        const productsDOM = document.querySelector('.boxes').children;
         for(const el of productsDOM) {
             if(el.getElementsByTagName('input')[0].checked){
                 el.getElementsByTagName('input')[0].click();
             }
         }
-    });
+    };
 
     // BOTÓN SELECCIONAR TODO
-    document.querySelector('#select').addEventListener('click', () => {
+    document.querySelector('#select').addEventListener('click', selectAll);
+    function selectAll(){
+        const productsDOM = document.querySelector('.boxes').children;
         for(const el of productsDOM) {
             if(!el.getElementsByTagName('input')[0].checked){
                 el.getElementsByTagName('input')[0].click();
             }
         }
-    });
+    };
 });

@@ -15,13 +15,25 @@
         <span>Seleccione los que desea contratar</span>
     </div>
     <main>
-        <div class="select">
-            <div class="select">
-                <button id="select">Seleccionar todos</button>
+        <div class="filters">
+            <div class="order-by">
+                <select name="order-by" id="order-by">
+                    <option value="default" selected>Por defecto (ID)</option>
+                    <option value="name-asc">Nombre ASC</option>
+                    <option value="name-desc">Nombre DESC</option>
+                    <option value="price-asc">Precio ASC</option>
+                    <option value="price-desc">Precio DESC</option>
+                </select>
             </div>
-            <div class="unselect">
-                <button id="unselect">Deseleccionar todos</button>
+            <div class="select-buttons">
+                <div class="select">
+                    <button id="select">Seleccionar todos</button>
+                </div>
+                <div class="unselect">
+                    <button id="unselect">Deseleccionar todos</button>
+                </div>
             </div>
+            
         </div>
 
         <div class="boxes"></div>

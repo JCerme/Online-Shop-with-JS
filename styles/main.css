@@ -41,14 +41,25 @@ main{
 
 
 
-.select{
+.filters{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 20px;
     margin-bottom: 20px;
 }
-
-.select button#select{
+.order-by select{
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #25262e;
+    color: var(--secondaryColor);
+    font-size: 14px;
+    font-weight: 600;
+}
+.select-buttons{
+    display: flex;
+    gap: 20px;
+}
+.select-buttons button#select{
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
@@ -57,7 +68,7 @@ main{
     font-size: 12px;
     font-weight: 600;
 }
-.select button#unselect{
+.select-buttons button#unselect{
     padding: 10px 20px;
     border-radius: 5px;
     border: 2px solid var(--secondaryColor);
