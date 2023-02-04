@@ -2,12 +2,13 @@ window.addEventListener('DOMContentLoaded',() => {
     // PRODUCTOS
     let nProds = 0;
     class Product{
-        constructor(name,urlName,price,image){
+        constructor(name,price,urlName,image){
             this.id = nProds++;
             this.name = name;
-            this.urlName = urlName;
             this.price = Number(price);
+            this.quantity = 1;
             this.image = image;
+            this.urlName = urlName;
         }
         calcIVA(){
             return this.price * 0.21;
@@ -15,15 +16,15 @@ window.addEventListener('DOMContentLoaded',() => {
     }
 
     let productos = [];
-    productos.push(new Product("Seguridad","seguridad",150,"cybersecurity.png"));
-    productos.push(new Product("Pago Online","pagoOnline",220,"crypto.png"));
-    productos.push(new Product("Mantenimiento","mantenimiento",20,"maintenance.png"));
-    productos.push(new Product("Optimización","optimizacion",95,"optimization.png"));
-    productos.push(new Product("SEO","seo",75,"zoom.png"));
-    productos.push(new Product("Diseño","diseno",50,"styles.png"));
-    productos.push(new Product("Chat Online","chatOnline",200,"chat-online.png"));
-    productos.push(new Product("Enlaces","enlaces",15,"links.png"));
-    productos.push(new Product("Favoritos","favoritos",50,"favorite.png"));
+    productos.push(new Product("Seguridad",150,"seguridad","cybersecurity.png"));
+    productos.push(new Product("Pago Online",220,"pagoOnline","crypto.png"));
+    productos.push(new Product("Mantenimiento",20,"mantenimiento","maintenance.png"));
+    productos.push(new Product("Optimización",95,"optimizacion","optimization.png"));
+    productos.push(new Product("SEO",75,"seo","zoom.png"));
+    productos.push(new Product("Diseño",50,"diseno","styles.png"));
+    productos.push(new Product("Chat Online",200,"chatOnline","chat-online.png"));
+    productos.push(new Product("Enlaces",15,"enlaces","links.png"));
+    productos.push(new Product("Favoritos",50,"favoritos","favorite.png"));
 
     console.log("Hay "+nProds+" servicios disponibles: ");
 
@@ -74,6 +75,7 @@ window.addEventListener('DOMContentLoaded',() => {
         for (const producto of carrito) {
             subtotal += Number(producto.price);
         }
+        // const subtotal = carrito.reduce((acumulador, product) => acumulador + (product.price * product.quantity));
         console.log("");
         console.log("Su subtotal actual es: "+subtotal+"$");
         document.querySelector('.subtotal').getElementsByTagName('span')[0].innerText = subtotal + '$';
@@ -86,7 +88,7 @@ window.addEventListener('DOMContentLoaded',() => {
         for (const producto of carrito) {
             iva += Number(producto.calcIVA());
         }
-        console.log("El IVA actual total es: "+iva+"$");
+        console.log("El IVA actual total es: "+Math.round((iva * 100))/100+"$");
         document.querySelector('.iva').getElementsByTagName('span')[0].innerText = Math.round((iva * 100))/100 + '$';
         return iva;
     }
