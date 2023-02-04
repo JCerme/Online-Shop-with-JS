@@ -1,0 +1,145 @@
+:root{
+    --primaryColor: #383b48;
+    --secondaryColor: #ebd356;
+}
+*{
+    box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--primaryColor);
+    padding-bottom: 100px;
+}
+main{
+    width: 70%;
+    margin: auto;
+}
+.hero{
+    padding: 100px 15%;
+    width: 100%;
+    background-color: var(--primaryColor);
+    background: linear-gradient(135deg, #25262e, var(--primaryColor));
+    margin-bottom: 75px;
+    color: lightgray;
+}
+.hero h1{
+    font-size: 48px;
+    margin: 0;
+    margin-bottom: 10px;
+    color: white;
+    background-color: var(--secondaryColor);
+    background: linear-gradient(175deg, #95630e, var(--secondaryColor));
+    display: inline-block;
+    background-size: 100%;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+}
+
+
+
+.select{
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.select button#select{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--secondaryColor);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 600;
+}
+.select button#unselect{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 2px solid var(--secondaryColor);
+    background-color: transparent;
+    color: var(--secondaryColor);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+
+
+
+
+.boxes{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+.boxes input[type="checkbox"]{
+    display: none;
+}
+.boxes input[type="checkbox"]:checked ~ label .box{
+    outline: 2px solid var(--secondaryColor);
+    transform: scale(1.01);
+    transition: 300ms;
+}
+.boxes > div{
+    margin: 10px;
+}
+.box{
+    padding: 20px;
+    background-color: var(--primaryColor);
+    background: linear-gradient(135deg, #25262e, var(--primaryColor));
+    border-radius: 10px;
+    text-align: center;
+    transition: 300ms;
+    color: white;
+    position: relative;
+    box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.2);
+}
+.box::before{
+    content: attr(data-price)'€';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--secondaryColor);
+    background: linear-gradient(135deg, #95630e, var(--secondaryColor));
+    padding: 5px 10px 5px 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primaryColor);
+    font-size: 14px;
+    font-weight: 800;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.box .imagen img{
+    max-height: 150px;
+    object-fit: contain;
+}
+
+
+
+
+.precio{
+    color: #bbb;
+    margin-top: 50px;
+}
+.precio span{
+    font-weight: 600;
+}
+.precio div{
+    margin-bottom: 5px;   
+}
+.precio div p{
+    margin: 0;
+}
+.total{
+    color: white;
+    font-size: 21px;
+    font-weight: 600;
+}
+
