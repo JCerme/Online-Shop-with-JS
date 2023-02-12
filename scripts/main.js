@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded',() => {
     // PRODUCTOS
+    /*
     let nProds = 0;
     class Product{
         constructor(name,price,urlName,image){
@@ -25,15 +26,16 @@ window.addEventListener('DOMContentLoaded',() => {
     productos.push(new Product("Chat Online",200,"chatOnline","chat-online.png"));
     productos.push(new Product("Enlaces",15,"enlaces","links.png"));
     productos.push(new Product("Favoritos",50,"favoritos","favorite.png"));
-
+    */
+    let nProds = products.length;
     console.log("Hay "+nProds+" servicios disponibles: ");
-    productos.forEach((prod)=>console.log(`   · ${prod.name}`));
+    products.forEach((prod)=>console.log(`   · ${prod.name}`));
 
     // FILTROS
     document.querySelector('#order-by').addEventListener('change',ordenarArray);
     function ordenarArray(){
         let value = document.querySelector('#order-by').value;
-        let copiaArray = [...productos];
+        let copiaArray = [...products];
 
         if(value === "name-asc"){
             copiaArray.sort((a, b) => b.name.localeCompare(a.name));
@@ -50,23 +52,38 @@ window.addEventListener('DOMContentLoaded',() => {
         mostrarProductos(copiaArray);
     }
 
-    mostrarProductos(productos)
+    mostrarProductos(products)
     function mostrarProductos(arrProds){
-        let htmlProductos = "";
+        let wrapper = document.querySelector(".boxes");
+        wrapper.innerHTML = "";
         for (const product of arrProds) {
-            htmlProductos += `<div>
-                <input type="checkbox" name="${product.urlName}" id="${product.urlName}">
-                <label for="${product.urlName}">
-                    <div class="box" data-index="${product.id}" data-price="${product.price}">
-                        <div class="imagen">
-                            <img src="./img/${product.image}" alt="${product.name}" width="100%">
-                        </div>
-                        <h2>${product.name}</h2>
-                    </div>
-                </label>
-            </div>`;
+            let div = document.createElement("div");
+                let input = document.createElement("input");
+                input.type = "checkbox";
+                input.name = product.urlName;
+                input.id = product.urlName;
+                let label = document.createElement("label");
+                label.htmlFor = product.urlName;
+                    let box = document.createElement("div");
+                    box.classList = "box";
+                    box.setAttribute("data-index",product.id);
+                    box.setAttribute("data-price",product.price);
+                        let imgDiv = document.createElement("div");
+                        imgDiv.classList = "imagen";
+                            let img = document.createElement("img");
+                            img.src = "./img/"+product.image;
+                            img.setAttribute("alt",product.name);
+                            img.setAttribute("width","100%");
+                            imgDiv.appendChild(img);
+                        box.appendChild(imgDiv);
+                        let h2 = document.createElement("h2");
+                        h2.innerText = product.name;
+                        box.appendChild(h2);
+                    label.appendChild(box);
+                div.appendChild(input);
+                div.appendChild(label);
+            wrapper.appendChild(div);
         }
-        document.querySelector('.boxes').innerHTML = htmlProductos;
         eventoCheckbox();
     }
 
@@ -81,7 +98,7 @@ window.addEventListener('DOMContentLoaded',() => {
             // función que ejecutaran los checkbox al cambiar
             checkbox.addEventListener("change", () => {
                 const index = box.getAttribute('data-index');
-                const product = productos[index];
+                const product = products[Number(index)-1];
                 // comprobamos si está o no checkeado
                 if (checkbox.checked) {
                     carrito.push(product);
@@ -93,16 +110,13 @@ window.addEventListener('DOMContentLoaded',() => {
                 mostrarTotal();
             })
         }
+        
     }
 
 
     // MOSTRAR SUBTOTAL
     function mostrarSubtotal(){
-        let subtotal = 0;
-        for (const producto of carrito) {
-            subtotal += Number(producto.price);
-        }
-        // const subtotal = carrito.reduce((acumulador, product) => acumulador + (product.price * product.quantity));
+        const subtotal = carrito.reduce((acumulador, product) => acumulador + (Number(product.price) * Number(product.quantity)),0);
         console.log("");
         console.log("Su subtotal actual es: "+subtotal+"$");
         document.querySelector('.subtotal').getElementsByTagName('span')[0].innerText = subtotal + '$';
@@ -113,7 +127,7 @@ window.addEventListener('DOMContentLoaded',() => {
     function mostrarIVA(){
         let iva = 0;
         for (const producto of carrito) {
-            iva += Number(producto.calcIVA());
+            iva += Number(producto.price * 0.21);
         }
         console.log("El IVA actual total es: "+Math.round((iva * 100))/100+"$");
         document.querySelector('.iva').getElementsByTagName('span')[0].innerText = Math.round((iva * 100))/100 + '$';
