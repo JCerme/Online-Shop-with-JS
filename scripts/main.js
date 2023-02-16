@@ -1,32 +1,5 @@
 window.addEventListener('DOMContentLoaded',() => {
     // PRODUCTOS
-    /*
-    let nProds = 0;
-    class Product{
-        constructor(name,price,urlName,image){
-            this.id = nProds++;
-            this.name = name;
-            this.price = Number(price);
-            this.quantity = 1;
-            this.image = image;
-            this.urlName = urlName;
-        }
-        calcIVA(){
-            return this.price * 0.21;
-        }
-    }
-
-    let productos = [];
-    productos.push(new Product("Seguridad",150,"seguridad","cybersecurity.png"));
-    productos.push(new Product("Pago Online",220,"pagoOnline","crypto.png"));
-    productos.push(new Product("Mantenimiento",20,"mantenimiento","maintenance.png"));
-    productos.push(new Product("Optimización",95,"optimizacion","optimization.png"));
-    productos.push(new Product("SEO",75,"seo","zoom.png"));
-    productos.push(new Product("Diseño",50,"diseno","styles.png"));
-    productos.push(new Product("Chat Online",200,"chatOnline","chat-online.png"));
-    productos.push(new Product("Enlaces",15,"enlaces","links.png"));
-    productos.push(new Product("Favoritos",50,"favoritos","favorite.png"));
-    */
     let nProds = products.length;
     console.log("Hay "+nProds+" servicios disponibles: ");
     products.forEach((prod)=>console.log(`   · ${prod.name}`));
