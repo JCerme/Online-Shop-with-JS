@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JCerme - Full Stack Developer</title>
     <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./css/styles.css">
-    <script src="./scripts/courses.js"></script>
-    <script src="./scripts/app.js"></script>
+    <link rel="stylesheet" href="./styles/main.css">
+    <script src="./scripts/products.js"></script>
+    <script src="./scripts/main.js"></script>
 </head>
 <body>
-    <div class="hero"></div>
+    <div class="hero">
+        <h1>Nuestros servicios</h1><br>
+        <span>Seleccione los que desea contratar</span>
+    </div>
     <main>
         <div class="filters">
             <div class="order-by">
@@ -24,6 +27,15 @@
                     <option value="price-desc">Precio DESC</option>
                 </select>
             </div>
+            <div class="select-buttons">
+                <div class="select">
+                    <button id="select">Seleccionar todos</button>
+                </div>
+                <div class="unselect">
+                    <button id="unselect">Deseleccionar todos</button>
+                </div>
+            </div>
+            
         </div>
 
         <div class="boxes"></div>
