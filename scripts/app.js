@@ -1,5 +1,6 @@
+const CART = [];
 document.addEventListener("DOMContentLoaded",() => {
-    const CART = [];
+    
 
     // CONSOLE LOG INFORMATIVO
     let nProds = COURSES.length;
@@ -31,12 +32,19 @@ document.addEventListener("DOMContentLoaded",() => {
             }
         
             alert("Has comprado " + qty + " curso/s de " + selectedObject.name);
-            selectedObject.quantity = qty;
-            CART.push(selectedObject);
+            
+            objIndex = CART.findIndex((course => course.id == selectedObject.id));
+            if(objIndex !== -1){
+                CART[objIndex].quantity += Number(qty);
+            } else {
+                selectedObject.quantity = qty;
+                CART.push(selectedObject);
+            }
         
             stillShopping = confirm("¿Deseas comprar otro producto?");
             if (stillShopping === false) {
                 showTotal();
+                console.log(CART)
             }
         } else {
             alert("Este curso no existe, revisa si lo has introducido bien.");
