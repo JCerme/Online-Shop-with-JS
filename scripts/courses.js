@@ -28,7 +28,7 @@ const COURSES = [
     },
     {
         "id": 3,
-        "name": "Fundamentos SEO",
+        "name": "Fundametos SEO",
         "price": 80,
         "quantity": 1,
         "entity": "OpenWebinars",
@@ -60,6 +60,96 @@ const COURSES = [
         "quantity": 1,
         "entity": "Coderhouse",
         "img": "javascript.jpeg",
+        "category": ["Frontend"]
+    },
+    {
+        "id": 7,
+        "name": "Git & GitHub",
+        "price": 20,
+        "quantity": 1,
+        "entity": "AnalyticsTul",
+        "img": "github.jpeg",
+        "category": ["Backend"]
+    },
+    {
+        "id": 8,
+        "name": "Forense en Windows",
+        "price": 300,
+        "quantity": 1,
+        "entity": "AnalyticsTul",
+        "img": "forenseWindows.jpeg",
+        "category": ["Cybersecurity"]
+    },
+    {
+        "id": 9,
+        "name": "Chrome Dev Tools",
+        "price": 180,
+        "quantity": 1,
+        "entity": "AnalyticsTul",
+        "img": "chromeDevTools.jpeg",
+        "category": ["Frontend","Backend"]
+    },
+    {
+        "id": 10,
+        "name": "SASS",
+        "price": 160,
+        "quantity": 1,
+        "entity": "Coderhouse",
+        "img": "sass.jpeg",
+        "category": ["Frontend"]
+    },
+    {
+        "id": 11,
+        "name": "jQuery",
+        "price": 210,
+        "quantity": 1,
+        "entity": "OpenWebinars",
+        "img": "jquery.jpeg",
+        "category": ["Frontend"]
+    },
+    {
+        "id": 12,
+        "name": "MongoDB",
+        "price": 60,
+        "quantity": 1,
+        "entity": "Udemy",
+        "img": "mongodb.jpeg",
+        "category": ["Databases","NoSQL","Backend"]
+    },
+    {
+        "id": 13,
+        "name": "PHP + MySQL",
+        "price": 250,
+        "quantity": 1,
+        "entity": "GSDAW",
+        "img": "php-mysql.jpeg",
+        "category": ["Databases","SQL","Backend"]
+    },
+    {
+        "id": 14,
+        "name": "Scrum",
+        "price": 50,
+        "quantity": 1,
+        "entity": "Scrum School",
+        "img": "scrum.jpeg",
+        "category": ["Scrum","Agile","Teamwork"]
+    },
+    {
+        "id": 15,
+        "name": "Forense en Linux",
+        "price": 410,
+        "quantity": 1,
+        "entity": "OpenWebinars",
+        "img": "forenseLinux.jpeg",
+        "category": ["Cybersecurity"]
+    },
+    {
+        "id": 16,
+        "name": "ECMAScript6",
+        "price": 220,
+        "quantity": 1,
+        "entity": "Udemy",
+        "img": "ecmascript.jpeg",
         "category": ["Frontend"]
     }
 ]
