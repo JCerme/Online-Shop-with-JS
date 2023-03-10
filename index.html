@@ -7,11 +7,36 @@
     <title>JCerme - Full Stack Developer</title>
     <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
-    <script src="./scripts/courses.js"></script>
     <script src="./scripts/app.js"></script>
+    <script src="https://kit.fontawesome.com/c5a69afab5.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+    <header>
+        <div class="logo">
+            <img src="./img/logoJCA.png" alt="JCerme Logo" width="30px">
+        </div>
+        <h1>JCerme</h1>
+        <div id="cart-btn">
+            <div id="counter"></div>
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <div id="cart">
+            <h2>Carrito</h2>
+            <div id="coursesCart"></div>
+            <div class="calc">
+                <div class="subtotal">
+                    <p>El Subtotal es: <span>0$</span></p>
+                </div>
+                <div class="iva">
+                    <p>El IVA es el 21%: <span>0$</span></p>
+                </div>
+                <div class="total">
+                    <p>Total Final: <span>0$</span></p>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="hero"></div>
     <main>
         <div class="filters">
@@ -28,18 +53,6 @@
         </div>
 
         <div class="boxes"></div>
-
-        <div class="precio">
-            <div class="subtotal">
-                <p>El Subtotal es: <span>0$</span></p>
-            </div>
-            <div class="iva">
-                <p>El IVA es el 21%: <span>0$</span></p>
-            </div>
-            <div class="total">
-                <p>Total Final: <span>0$</span></p>
-            </div>
-        </div>
     </main>
 </body>
 </html>

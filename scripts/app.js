@@ -1,15 +1,27 @@
 window.addEventListener('DOMContentLoaded',() => {
-    // PRODUCTOS
-    let nProds = COURSES.length;
-    console.log("Hay "+nProds+" servicios disponibles: ");
-    COURSES.forEach((prod)=>console.log(`   · ${prod.name}`));
+    // FETCH
+    let COURSES;
+    fetch("/scripts/courses.json")
+        .then(response => response.json())
+        .then(data => {
+            COURSES = data;
+            fetchProduct();
+            showCourses(COURSES);
+        });
 
+    // PRODUCTOS
+    let nProds;
+    function fetchProduct(){
+        nProds = COURSES.length;
+        console.log("Hay "+nProds+" servicios disponibles: ");
+        COURSES.forEach((prod)=>console.log(`   · ${prod.name}`));
+    }
+    
     // LOCAL STORAGE
-    let carrito = JSON.parse(localStorage.getItem('CARRITO'));
+    let cart = JSON.parse(localStorage.getItem('CARRITO'));
     if(!localStorage.getItem("CARRITO")){
         localStorage.setItem('CARRITO', '[]');
     }
-    showTotal();
 
     // ORDER BY
     document.querySelector('#order-by').addEventListener('change',orderArray);
@@ -31,7 +43,6 @@ window.addEventListener('DOMContentLoaded',() => {
     }
 
     // SHOW COURSES
-    showCourses(COURSES)
     function showCourses(arrProds){
         let wrapper = document.querySelector(".boxes");
         wrapper.innerHTML = "";
@@ -44,9 +55,6 @@ window.addEventListener('DOMContentLoaded',() => {
 
             // CHECK IF ALREADY IN CART
             cart = JSON.parse(localStorage.getItem('CARRITO'));
-            let inCart = cart.find(element => element.id === product.id);
-            if(inCart) box.style.opacity = 0.35;
-
             let imgDiv = document.createElement("div");
             imgDiv.classList = "imagen";
                 let img = document.createElement("img");
@@ -79,6 +87,162 @@ window.addEventListener('DOMContentLoaded',() => {
                     remove.innerText = "-";
                     stock.appendChild(remove);
                     let stockAct = document.createElement("span");
+                    stockAct.innerText = product.quantity;
+                    stock.appendChild(stockAct);
+                    let plus = document.createElement("button");
+                    plus.classList.add("addStock");
+                    plus.addEventListener("click", addStock);
+                    plus.innerText = "+";
+                    stock.appendChild(plus);
+                let cartBtn = document.createElement("button");
+                cartBtn.classList.add("add-to-cart");
+                cartBtn.addEventListener("click", addToCart);
+                cartBtn.innerText = "Añadir";
+            addCart.appendChild(stock);
+            addCart.appendChild(cartBtn);
+            box.appendChild(addCart);
+            wrapper.appendChild(box);
+        }
+    }
+
+    // AÑADIR O QUITAR DEL CARRITO
+    function addToCart(e){
+        let id = Number(e.target.parentElement.parentElement.getAttribute("data-index"));
+        let qty = Number(e.target.parentElement.querySelector('span').innerText);
+        let founded = false;
+        let prod = COURSES.find(product => product.id === Number(id));
+        prod.quantity = qty;
+
+        cart = JSON.parse(localStorage.getItem("CARRITO"));
+        for (const item of cart) {
+            if(item.id === id){
+                founded = true;
+                item.quantity = item.quantity + qty;
+            }
+        }
+        if(!founded){
+            cart.push(prod);
+        }
+
+        localStorage.setItem('CARRITO', JSON.stringify(cart));
+
+        Swal.fire({
+            title: '¡Producto añadido correctamente!',
+            text: `Se ha añadido el curso "${prod.name}" (${prod.quantity} unidades) al carrito.`,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 2000
+        })
+        
+        counter();
+        showTotal()
+        showCart()
+    }
+
+    // ADD STOCK
+    function addStock(e){
+        let qty = e.target.parentElement.querySelector('span').innerText;
+        e.target.parentElement.querySelector('span').innerText = Number(qty) + 1;
+    }
+    function addStockCart(e){
+        let id = Number(e.target.parentElement.parentElement.getAttribute('data-id'));
+        cart = JSON.parse(localStorage.getItem("CARRITO"));
+
+        for (const item of cart) {
+            if(item.id === id){
+                item.quantity = item.quantity + 1;
+            }
+        }
+
+        localStorage.setItem("CARRITO", JSON.stringify(cart)); 
+
+        document.querySelector('#cart').classList.toggle('visible');
+        counter();
+        showCart();
+    }
+
+    // REMOVE STOCK
+    function removeStock(e){
+        let qty = e.target.parentElement.querySelector('span').innerText;
+        if(Number(qty) > 1){
+            e.target.parentElement.querySelector('span').innerText = Number(qty) - 1;
+        }
+    }
+    function removeStockCart(e){
+        let id = Number(e.target.parentElement.parentElement.getAttribute('data-id'));
+        cart = JSON.parse(localStorage.getItem("CARRITO"));
+
+        cart.forEach((item, index)=>{
+            if(item.id === id){
+                if(item.quantity>1){
+                    item.quantity = item.quantity - 1;
+                } else {
+                    cart.splice(index,1)
+                }
+            }
+        })
+
+        localStorage.setItem("CARRITO", JSON.stringify(cart)); 
+
+        document.querySelector('#cart').classList.toggle('visible');
+        counter();
+        showCart();
+    }
+
+    // MOSTRAR SUBTOTAL
+    function showSubtotal(){
+        const subtotal = cart.reduce((acumulador, product) => acumulador + (Number(product.price) * Number(product.quantity)),0);
+        document.querySelector('.subtotal').getElementsByTagName('span')[0].innerText = subtotal + '$';
+        return subtotal;
+    }
+
+    // MOSTRAR IVA
+    function showIVA(){
+        let iva = 0;
+        for (const producto of cart) {
+            iva += Number(producto.price * producto.quantity * 0.21);
+        }
+        document.querySelector('.iva').getElementsByTagName('span')[0].innerText = Math.round((iva * 100))/100 + '$';
+        return iva;
+    }
+
+    // MOSTRAR TOTAL
+    function showTotal(){
+        let total = Math.floor((showSubtotal() + showIVA()) * 100) / 100;
+        document.querySelector('.total').getElementsByTagName('span')[0].innerText = total + '$';
+    }
+
+    // MOSTRAR CARRITO
+    document.querySelector('#cart-btn').addEventListener("click", showCart)
+    function showCart(){
+        cart = JSON.parse(localStorage.getItem("CARRITO"));
+        document.querySelector('#cart').classList.toggle('visible');
+        if(!cart.length){
+            document.querySelector('#coursesCart').innerHTML = "No hay productos en el carrito";
+            document.querySelector('.calc').style.display = 'none';
+        } else {
+            document.querySelector('#coursesCart').innerHTML = '';
+            document.querySelector('.calc').style.display = 'block';
+            cart.map((course) => {
+                let inCart = cart.find(element => element.id === course.id);
+
+                let divC = document.createElement('div');
+                divC.id = 'cart-'+course.id;
+                divC.classList.add('item');
+                divC.setAttribute('data-id', course.id);
+                let text = document.createElement('div');
+                let h3 = document.createElement('h3');
+                h3.innerText = course.name;
+                let entity = document.createElement('span');
+                entity.innerText = course.entity;
+                let stock = document.createElement("div");
+                stock.classList.add('stock');
+                    let remove = document.createElement("button");
+                    remove.classList.add("removeStock");
+                    remove.addEventListener("click", removeStockCart);
+                    remove.innerText = "-";
+                    stock.appendChild(remove);
+                    let stockAct = document.createElement("span");
 
                     // CHECK IF ALREADY IN CART
                     if(inCart){
@@ -90,106 +254,22 @@ window.addEventListener('DOMContentLoaded',() => {
                     stock.appendChild(stockAct);
                     let plus = document.createElement("button");
                     plus.classList.add("addStock");
-                    plus.addEventListener("click", addStock);
+                    plus.addEventListener("click", addStockCart);
                     plus.innerText = "+";
                     stock.appendChild(plus);
-                let cartBtn = document.createElement("button");
-                cartBtn.classList.add("add-to-cart");
-
-                // CHECK IF ALREADY IN CART
-                if(inCart){
-                    cartBtn.disabled = true;
-                    cartBtn.classList.add("disabled");
-                    cartBtn.innerText = "Añadido";
-                } else {
-                    cartBtn.addEventListener("click", addToCart);
-                    cartBtn.innerText = "Añadir";
-                }
-            addCart.appendChild(stock);
-            addCart.appendChild(cartBtn);
-            box.appendChild(addCart);
-            wrapper.appendChild(box);
-        }
-    }
-
-    // AÑADIR O QUITAR DEL CARRITO
-    function addToCart(e){
-        let id = e.target.parentElement.parentElement.getAttribute("data-index");
-        let qty = e.target.parentElement.querySelector('span').innerText;
-
-        let prod = COURSES.find(product => product.id === Number(id));
-        prod.quantity = qty;
-
-        cart = JSON.parse(localStorage.getItem("CARRITO"));
-        let prodExist = cart.indexOf(element => element.id === prod.id);
-        if(prodExist <= 0){
-            cart.push(prod);
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Ya has añadido este producto al carrito',
-                icon: 'error',
-                confirmButtonText: 'Volver'
+                    text.appendChild(h3);
+                    text.appendChild(entity);
+                divC.appendChild(text);
+                divC.appendChild(stock);
+                document.querySelector('#coursesCart').appendChild(divC)
             })
-        }
-
-        localStorage.setItem('CARRITO', JSON.stringify(cart));
-
-        e.target.disabled = true;
-        e.target.classList.add("disabled");
-        e.target.innerText = "Añadido";
-        e.target.parentElement.parentElement.style.opacity = 0.35;
-
-        Swal.fire({
-            title: '¡Producto añadido correctamente!',
-            text: `Se ha añadido el curso "${prod.name}" (${prod.quantity} unidades) al carrito.`,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 2000
-        })
-        
-        showTotal()
-    }
-
-    // ADD STOCK
-    function addStock(e){
-        let qty = e.target.parentElement.querySelector('span').innerText;
-        e.target.parentElement.querySelector('span').innerText = Number(qty) + 1;
-    }
-
-    // REMOVE STOCK
-    function removeStock(e){
-        let qty = e.target.parentElement.querySelector('span').innerText;
-        if(Number(qty) > 1){
-            e.target.parentElement.querySelector('span').innerText = Number(qty) - 1;
+            showTotal()
         }
     }
 
-    // MOSTRAR SUBTOTAL
-    function showSubtotal(){
-        const subtotal = cart.reduce((acumulador, product) => acumulador + (Number(product.price) * Number(product.quantity)),0);
-        console.log("");
-        console.log("Su subtotal actual es: "+subtotal+"$");
-        document.querySelector('.subtotal').getElementsByTagName('span')[0].innerText = subtotal + '$';
-        return subtotal;
-    }
-
-    // MOSTRAR IVA
-    function showIVA(){
-        let iva = 0;
-        for (const producto of cart) {
-            iva += Number(producto.price * producto.quantity * 0.21);
-        }
-        console.log("El IVA actual total es: "+Math.round((iva * 100))/100+"$");
-        document.querySelector('.iva').getElementsByTagName('span')[0].innerText = Math.round((iva * 100))/100 + '$';
-        return iva;
-    }
-
-    // MOSTRAR TOTAL
-    function showTotal(){
+    counter();
+    function counter(){
         cart = JSON.parse(localStorage.getItem("CARRITO"));
-        let total = Math.floor((showSubtotal() + showIVA()) * 100) / 100;
-        document.querySelector('.total').getElementsByTagName('span')[0].innerText = total + '$';
-        console.log("Y EL TOTAL ACTUAL ES: "+total+"$");
+        document.querySelector('#counter').innerText = cart.length;
     }
 });

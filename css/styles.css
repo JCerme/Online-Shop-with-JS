@@ -1,7 +1,7 @@
 :root{
     --primaryColor: #ffffff;
     --secondaryColor: #5F17CE;
-    --lightPruple: #8263CE;
+    --lightPurple: #8263CE;
 }
 *{
     box-sizing: border-box;
@@ -17,6 +17,96 @@ main{
     width: 70%;
     margin: auto;
 }
+
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 15%;
+    color: white;
+    background: linear-gradient(10deg, var(--lightPurple), var(--secondaryColor));
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    align-items: center;
+    font-size: 16px;
+    z-index: 9999999;
+}
+header h1{
+    margin: 0;
+}
+header img{
+    filter: brightness(100);
+}
+
+
+#cart{
+    display: none;
+    position: absolute;
+    top: 75px;
+    width: 400px;
+    right: 12.5%;
+    background-color: white;
+    padding: 40px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    color: var(--lightPurple);
+    border-radius: 10px;
+}
+#cart::before{
+    content: '';
+    border: 20px solid white;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: -30px;
+    right: 40px;
+}
+#cart::after{
+    content: '';
+    border: 20px solid white;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: -30px;
+    right: 40px;
+}
+#cart.visible{
+    display: block;
+}
+#cart-btn{
+    margin-left: auto;
+    font-size: 26px;
+    color: white;
+    position: relative;
+}
+#counter{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: white;
+    color: var(--lightPurple);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border-radius: 50px;
+}
+#cart h2{
+    font-size: 26px;
+    margin-top: 0;
+    color: var(--secondaryColor);
+}
+
+
+
+
+
 .hero{
     padding: 150px 15%;
     width: 100%;
@@ -60,8 +150,8 @@ main{
     padding: 10px 20px;
     border-radius: 5px;
     background-color: white;
-    color: var(--lightPruple);
-    border: 1px solid var(--lightPruple);
+    color: var(--lightPurple);
+    border: 1px solid var(--lightPurple);
     font-size: 14px;
     font-weight: 600;
 }
@@ -100,6 +190,53 @@ main{
 .box .cart > div button{
     cursor: pointer;
 }
+.item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+}
+.item h3{
+    margin: 0;
+}
+.item > div:first-child > span{
+    font-size: 14px;
+    color: lightgray;
+}
+.item .stock > *{
+    padding: 10px;
+    aspect-ratio: 1/1;
+}
+.item .stock button{
+    background-color: #F0F0F0;
+    border: none;
+    cursor: pointer;
+}
+
+
+.calc{
+    margin-top: 20px;
+    color: gray;
+    font-size: 14px;
+}
+.calc p{
+    margin: 5px 0;
+}
+.total{
+    color: white;
+    background-color: var(--secondaryColor);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+.total p{
+    margin: 0;
+}
+
 .box .cart > div *{
     height: 100%;
     aspect-ratio: 1 / 1;
@@ -172,31 +309,4 @@ main{
 }
 
 
-.precio{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 15%;
-    color: lightgray;
-    background: linear-gradient(10deg, var(--lightPruple), var(--secondaryColor));
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
-}
-.precio span{
-    font-weight: 600;
-}
-.precio div{
-    margin-bottom: 5px;   
-}
-.precio div p{
-    margin: 0;
-}
-.total{
-    color: white;
-    font-size: 21px;
-    font-weight: 600;
-}
 
