@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded',() => {
     // FETCH
     let COURSES;
-    fetch("/scripts/courses.json")
+    fetch("./scripts/courses.json")
         .then(response => response.json())
         .then(data => {
             COURSES = data;
