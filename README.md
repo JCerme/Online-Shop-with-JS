@@ -1,4 +1,4 @@
-![App Screenshot](https://www.jcerme.com/other/OnlineShopJS-1.png)
+![App Screenshot](https://onlineshop.jcerme.com/img/onlineshop_1.png)
 
 #  🛒 Online Shop with JS
 
@@ -14,9 +14,8 @@ HTML, CSS and Javascript
 
 ## 📸 Screenshots
 
-![App Screenshot](https://www.jcerme.com/other/OnlineShopJS-2.png)
-![App Screenshot](https://www.jcerme.com/other/OnlineShopJS-3.png)
-![App Screenshot](https://www.jcerme.com/other/OnlineShopJS-4.png)
+![App Screenshot](https://onlineshop.jcerme.com/img/onlineshop_2.png)
+![App Screenshot](https://onlineshop.jcerme.com/img/onlineshop_3.png)
 
 ## 📖 What I've Learned?
 
